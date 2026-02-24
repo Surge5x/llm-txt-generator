@@ -1,0 +1,18 @@
+# Thera Travel
+> Thera Travel connects patients in the UK with medical treatments abroad, primarily for orthopaedic procedures in EU-accredited clinics.
+
+## General Information
+- [Homepage](https://theratravel.co.uk/): Connects UK patients with medical treatments and surgeries abroad, offering faster access and competitive pricing.
+- [Our Clinics](https://www.theratravel.co.uk/our-clinics): Details Thera Travel's partner medical facilities and their rigorous vetting process for quality and care.
+
+## Orthopaedic Treatments
+- [Orthopaedics Overview](https://www.theratravel.co.uk/orthopaedics): Provides an overview of various orthopaedic surgeries available abroad for conditions affecting joints and the spine.
+- [Hip Replacement Surgery Abroad](https://www.theratravel.co.uk/orthopaedics/hip-replacement-surgery-abroad): Offers hip replacement surgery abroad with faster treatment, affordable costs, and access to EU clinics.
+- [Knee Replacement Surgery Abroad](https://www.theratravel.co.uk/orthopaedics/knee-replacement-surgery-abroad): Provides knee replacement surgery abroad with reduced waiting times, trusted EU clinics, and comprehensive support.
+- [Spinal Fusion Surgery Abroad](https://www.theratravel.co.uk/orthopaedics/spinal-fusion-surgery-abroad): Facilitates spinal fusion surgery abroad, offering faster treatment, lower costs, and access to European spine clinics.
+- [ACL Reconstruction Surgery Abroad](https://www.theratravel.co.uk/orthopaedics/acl-reconstruction-surgery-abroad): Enables ACL reconstruction surgery abroad for faster access to treatment in EU-accredited clinics.
+- [Endoscopic Spine Surgery Abroad](https://www.theratravel.co.uk/orthopaedics/endoscopic-spine-surgery-abroad): Offers minimally invasive endoscopic spine surgery abroad for chronic back pain, sciatica, and spinal stenosis.
+- [Ankle Replacement Surgery Abroad](https://www.theratravel.co.uk/orthopaedics/ankle-replacement-surgery-abroad): Provides ankle replacement surgery abroad with faster access to expert care and cost savings.
+
+## Tools
+- [NHS Waiting List Calculator](https://www.theratravel.co.uk/nhs-waiting-list-calculator): A tool to estimate current NHS waiting times for medical treatments.

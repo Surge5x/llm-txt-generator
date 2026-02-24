@@ -1,0 +1,24 @@
+# Coherent Healthcare
+
+> Coherent Healthcare provides AI-powered patient retention and seamless payment solutions to medical practices, enabling proactive patient follow-up and streamlined billing.
+
+## Products
+
+- [Sales Desk](https://coherenthq.com/sales-desk): A human-supervised AI patient coordinator service for proactive patient follow-up, lead management, post-consultation engagement, and patient recall.
+- [Billing Desk](https://coherenthq.com/payments): A healthcare payment solution to manage all billing and payments, including card, bank, and digital wallet options, for remote and in-person transactions.
+
+## Company
+
+- [About Us](https://coherenthq.com/about-us): Information about Coherent Healthcare's team and mission, focusing on healthcare operational experience.
+- [Partners](https://coherenthq.com/partners): Details on partnering opportunities for PMS/EHR platforms, private equity groups, and healthcare associations to integrate services.
+
+## Legal & Info
+
+- [FAQ](https://coherenthq.com/faq): Frequently asked questions about Coherent Healthcare's services, lead management, patient retention, and operational aspects.
+- [Privacy Policy](https://coherenthq.com/privacy-policy): Describes how Coherent Healthcare collects, uses, and protects personal information.
+- [Terms and Conditions](https://coherenthq.com/terms-and-conditions): Legal terms governing the use of Coherent Healthcare's website and services for merchants and customers.
+
+## Optional
+
+- [Blog](https://coherenthq.com/blog): Articles and case studies on healthcare insights, patient engagement strategies, and industry best practices.
+- [Events](https://coherenthq.com/events): Information on past and upcoming networking events and webinars for healthcare leaders.

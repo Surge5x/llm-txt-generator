@@ -1,0 +1,22 @@
+# Glopal
+> Glopal provides services for e-commerce businesses to expand globally through automated store localization, international marketing, and compliance for taxes and duties. It includes translations, cross-border shipping, and trade compliance.
+
+## Services
+- [Home](https://merchants.glopal.com/en-us/home): Overview of Glopal's international ecommerce services, including localization, marketing, and tax compliance.
+- [International Marketing](https://merchants.glopal.com/en-us/attract): Details services for attracting global buyers through Google, Facebook, Instagram, and SEO.
+- [International Facebook & Instagram Ads](https://merchants.glopal.com/en-us/solutions/international-facebook-ads): Automates localization of product catalogs and ads for global Facebook and Instagram campaigns.
+- [International Google Shopping Ads](https://merchants.glopal.com/en-us/solutions/international-google-shopping): Automates localization of product feeds and campaigns for global Google Shopping.
+- [International SEO](https://merchants.glopal.com/en-us/solutions/international-seo): Generates indexable, localized store versions in multiple languages and currencies for improved international organic search visibility.
+
+## Documentation
+- [Glopal Help Center](https://help.glopal.com/hc/en-us): Provides articles on getting started, localization, marketing, compliance, order processing, and tracking.
+- [Submit a Request](https://help.glopal.com/hc/en-us/requests/new): Allows users to submit support requests.
+
+## Company
+- [Contact Us](https://merchants.glopal.com/en-us/contact?hsLang=en-us): Provides contact information and a form for inquiries.
+
+## Tools
+- [Track Your Parcel](https://tracking.glopal.com/): Allows customers to track international parcels.
+
+## Get Started
+- [Create Account](https://merchants.glopal.com/en-us/signup/enter-contact-info): Page to create a new Glopal merchant account.

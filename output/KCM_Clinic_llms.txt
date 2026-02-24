@@ -1,0 +1,60 @@
+# KCM Clinic
+> KCM Clinic is an international private multispecialty hospital and medical center in Poland, offering various surgical procedures and medical services.
+
+## General Information
+- [Homepage](https://kcmclinic.com/): KCM Clinic's main website.
+- [About Us](https://kcmclinic.com/about-us/): Information about the clinic.
+- [Prices](https://kcmclinic.com/prices/): Pricing for various medical procedures.
+- [Find a Doctor](https://kcmclinic.com/find-a-doctor/): Directory to locate medical practitioners.
+- [Medical Forms](https://kcmclinic.com/medical-form/): Access patient medical forms.
+- [Preventive Health Check-up Packages](https://kcmclinic.com/preventive-health-check-up-packages/): Information on available health check-up packages.
+- [Contact Us](https://kcmclinic.com/contact-us/): Contact details for the clinic.
+
+## Weight Loss Surgery
+- [Weight Loss Surgery Overview](https://kcmclinic.com/weight-loss-surgery/): General information on bariatric surgery options.
+- [About Obesity](https://kcmclinic.com/weight-loss-surgery/about-obesity/): Educational content on obesity as a medical condition.
+- [Gastric Sleeve Surgery](https://kcmclinic.com/weight-loss-surgery/gastric-sleeve-surgery/): Details on sleeve gastrectomy procedures.
+- [Mini Gastric Bypass](https://kcmclinic.com/weight-loss-surgery/mini-gastric-bypass/): Information on mini gastric bypass surgery.
+- [Gastric Bypass Surgery](https://kcmclinic.com/weight-loss-surgery/gastric-bypass/): Details on Roux-en-Y gastric bypass procedures.
+- [Revisional Bariatric Surgery](https://kcmclinic.com/weight-loss-surgery/revisional-bariatric-surgery/): Procedures for revising previous weight loss surgeries.
+- [SASI Bypass](https://kcmclinic.com/weight-loss-surgery/sasi-bypass/): Information on SASI bypass weight loss surgery.
+- [Gastric Band Removal](https://kcmclinic.com/weight-loss-surgery/laparoscopic-removal-of-the-gastric-band/): Details on laparoscopic gastric band removal.
+- [Endoscopic Sleeve Gastroplasty (ESG)](https://kcmclinic.com/weight-loss-surgery/endoscopic-sleeve-gastroplasty/): Non-surgical endoscopic procedure for weight loss.
+- [Allurion Gastric Balloon](https://kcmclinic.com/non-invasive-obesity-treatment/allurion-gastric-balloon/): Non-invasive gastric balloon program.
+- [Orbera Weight Loss Balloon](https://kcmclinic.com/weight-loss-surgery/weight-loss-balloon-orbera/): Information on the Orbera intragastric balloon system.
+- [Bariatric Team](https://kcmclinic.com/our-bariatric-team/): Profiles of bariatric surgeons and specialists.
+- [Bariatric Surgery Aftercare Program](https://kcmclinic.com/weight-loss-surgery/aftercare-program/): Post-surgical support and guidance program.
+- [Obesity Treatment Centre](https://kcmclinic.com/weight-loss-surgery/obesity-treatment-centre/): Overview of comprehensive obesity treatment services.
+
+## Plastic Surgery
+- [Plastic & Cosmetic Surgery Overview](https://kcmclinic.com/plastic-surgery/): General information on plastic and cosmetic surgery procedures.
+- [Breast Surgery](https://kcmclinic.com/breast-surgery/): Overview of cosmetic breast procedures.
+- [Breast Implant & Enlargement](https://kcmclinic.com/breast-implant/): Details on breast augmentation surgery.
+- [Breast Lift](https://kcmclinic.com/breast-lift/): Information on breast uplift surgery.
+- [Breast Reduction](https://kcmclinic.com/breast-reduction/): Details on breast reduction surgery.
+- [Breast Reconstruction](https://kcmclinic.com/breast-reconstruction/): Information on breast reconstruction surgery.
+- [Gynecomastia Surgery](https://kcmclinic.com/gynecomastia-surgery/): Male breast reduction surgery.
+- [Face and Neck Surgery](https://kcmclinic.com/face-and-neck-surgery/): Overview of cosmetic procedures for the face and neck.
+- [Nose Surgery (Rhinoplasty)](https://kcmclinic.com/nose-surgery/): Details on nose reshaping surgery.
+- [Eyelid Surgery (Blepharoplasty)](https://kcmclinic.com/eyelid-surgery/): Information on eyelid correction and eye bag removal.
+- [Face and Neck Lifting](https://kcmclinic.com/face-and-neck-lifting/): Procedures for face and neck rejuvenation.
+- [Tummy Tuck (Abdominoplasty)](https://kcmclinic.com/tummy-tuck/): Details on abdominal cosmetic surgery.
+- [Thigh Plastic Surgery (Thigh Lift)](https://kcmclinic.com/thigh-plastic-surgery/): Information on thigh lift surgery.
+
+## Supporting Clinics
+- [Bariatric and Metabolic Clinic](https://kcmclinic.com/weight-loss-surgery/bariatric-and-metabolic-clinic/): Clinic specializing in bariatric and metabolic health conditions.
+- [Dietetics and Nutrition Clinic](https://kcmclinic.com/weight-loss-surgery/dietetics-and-nutrition-clinic/): Provides tailored nutrition plans and support.
+- [Clinical Psychology Clinic](https://kcmclinic.com/weight-loss-surgery/clinical-psychology-clinic/): Offers psychological support services for patients.
+- [Diabetology Clinic](https://kcmclinic.com/weight-loss-surgery/diabetology-clinic/): Specializes in diabetes diagnosis and management.
+- [Cardiology Clinic](https://kcmclinic.com/weight-loss-surgery/cardiology-clinic/): Provides diagnostic and treatment services for heart conditions.
+- [Physiotherapy Clinic](https://kcmclinic.com/specialist-clinics/physiotherapy-clinic/): Offers specialized rehabilitation and physical therapy.
+
+## Optional
+- [KCM Academy](https://kcmclinic.com/kcm-academy/): Educational platform for medical practitioners.
+- [Patient Stories](https://kcmclinic.com/patient-stories/): Patient testimonials and transformation stories.
+- [Patient Blog](https://kcmclinic.com/patient-blog/): Blog featuring content for patients.
+- [News](https://kcmclinic.com/news/): Clinic news and updates.
+- [KCM Family](https://kcmclinic.com/kcm-family/): Patient community and support groups.
+- [BMI Calculator](https://kcmclinic.com/weight-loss-surgery/bmi-calculator/): Tool to calculate Body Mass Index.
+- [Weight Loss Surgery in Poland vs Turkey](https://kcmclinic.com/weight-loss-surgery/poland-eu-vs-turkey/): Comparative information on bariatric surgery locations.
+- [Guide: 10 Steps for Losing Weight](https://kcmclinic.com/weight-loss-surgery/guide-10-steps-for-losing-weight/): Educational guide offering weight management steps.
