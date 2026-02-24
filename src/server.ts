@@ -1,11 +1,15 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
+import path from 'path';
 import { crawlDomain } from './crawler';
 import { generateLlmsTxt, improveExistingLlmsTxt } from './llm';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// Serve static frontend files
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
 async function checkExistingLlmsTxt(startUrl: string): Promise<string | null> {
     try {
@@ -71,6 +75,11 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
         console.error('Error during analysis API call:', error);
         res.status(500).json({ error: error.message || 'An internal error occurred' });
     }
+});
+
+// Catch-all route to serve the React frontend for non-API requests
+app.get('*', (req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 const PORT = process.env.PORT || 3001;
