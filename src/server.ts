@@ -130,7 +130,8 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
         } else {
             // 2. Crawl Domain
             console.log('Starting crawler...');
-            const extractedData = await crawlDomain(url, 100);
+            // Reduced to 45 to prevent browser timeout on large sites
+            const extractedData = await crawlDomain(url, 45);
             synthesizedDataString = JSON.stringify(extractedData);
 
             // 3. Synthesize using LLM
@@ -165,7 +166,12 @@ app.use((req: Request, res: Response) => {
 });
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, async () => {
+const server = app.listen(PORT, async () => {
     console.log(`Express server running on http://localhost:${PORT}`);
     await initializeSheetHeaders();
 });
+
+// Increase Node.js timeouts to prevent dropping long-running crawler connections
+server.setTimeout(600000); // 10 minutes
+server.keepAliveTimeout = 600000;
+server.headersTimeout = 600000;
