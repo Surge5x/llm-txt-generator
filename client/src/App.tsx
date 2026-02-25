@@ -96,7 +96,7 @@ function App() {
           <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center text-white shadow-lg">
             <span className="material-symbols-outlined">auto_awesome</span>
           </div>
-          <span className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">AI Analyzer</span>
+          <span className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">LLM Text File Generator</span>
         </div>
         <div className="flex items-center gap-4">
           <button
@@ -106,8 +106,6 @@ function App() {
             <span className={`material-symbols-outlined ${isDark ? 'hidden' : 'block'}`}>dark_mode</span>
             <span className={`material-symbols-outlined ${isDark ? 'block' : 'hidden'}`}>light_mode</span>
           </button>
-          <a className="px-5 py-2.5 font-medium text-sm text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors hidden sm:block" href="#">Docs</a>
-          <a className="px-5 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full font-semibold text-sm hover:scale-105 transition-transform active:scale-95" href="#">Get Started</a>
         </div>
       </nav>
 
@@ -301,10 +299,10 @@ function App() {
             <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center text-white">
               <span className="material-symbols-outlined text-lg">auto_awesome</span>
             </div>
-            <span className="font-bold text-slate-900 dark:text-white">AI Analyzer</span>
+            <span className="font-bold text-slate-900 dark:text-white">LLM Text File Generator</span>
           </div>
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            © 2024 AI Analyzer. Helping websites speak AI.
+            © 2024 LLM Text File Generator. Helping websites speak AI.
           </p>
           <div className="flex gap-6">
             <a className="text-slate-400 hover:text-primary transition-colors" href="#"><span className="material-symbols-outlined">public</span></a>

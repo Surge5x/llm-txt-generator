@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import path from 'path';
+import { google } from 'googleapis';
 import { crawlDomain } from './crawler';
 import { generateLlmsTxt, improveExistingLlmsTxt } from './llm';
 
@@ -26,6 +27,34 @@ async function checkExistingLlmsTxt(startUrl: string): Promise<string | null> {
         // Ignore fetch errors (e.g. network issues)
     }
     return null;
+}
+
+const SPREADSHEET_ID = '1TTGtV81nwQ1L5sr6CoyaM2x-qSFf9WH5WnhdehgxAAs';
+
+async function appendRowToSheet(targetUrl: string, status: string) {
+    try {
+        const auth = new google.auth.GoogleAuth({
+            scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+        });
+        const client = await auth.getClient();
+        const sheets = google.sheets({ version: 'v4', auth: client as any });
+
+        const dateStr = new Date().toISOString();
+
+        await sheets.spreadsheets.values.append({
+            spreadsheetId: SPREADSHEET_ID,
+            range: 'Sheet1!A:C',
+            valueInputOption: 'USER_ENTERED',
+            requestBody: {
+                values: [
+                    [dateStr, targetUrl, status]
+                ]
+            }
+        });
+        console.log(`Successfully appended row for ${targetUrl} to Google Sheets`);
+    } catch (error) {
+        console.error('Failed to append row to Google Sheets:', error);
+    }
 }
 
 app.post('/api/analyze', async (req: Request, res: Response) => {
@@ -64,6 +93,10 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
             content = result.content;
             filename = result.filename;
         }
+
+        // Fire-and-forget logging to Google Sheets
+        const status = existingLlmsTxtDetected ? 'Improved Existing' : 'Newly Generated';
+        appendRowToSheet(url, status).catch(console.error);
 
         res.json({
             success: true,
