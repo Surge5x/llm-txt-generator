@@ -11,6 +11,9 @@ COPY . .
 RUN npm install
 RUN npm run build:client
 
+# Build the backend typescript
+RUN npm run build
+
 # Expose the port that the Express app runs on
 EXPOSE 3001
 ENV PORT=3001
