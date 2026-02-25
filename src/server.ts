@@ -113,6 +113,15 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
     try {
         console.log(`Received API request to analyze: ${url}`);
 
+        // Start streaming the response to prevent proxy/browser timeouts
+        res.setHeader('Content-Type', 'application/json');
+        res.write('{\n');
+
+        // Send a whitespace character every 10 seconds to keep connection alive
+        const keepAliveInterval = setInterval(() => {
+            res.write(' ');
+        }, 10000);
+
         // 1. Check for existing llms.txt
         const existingContent = await checkExistingLlmsTxt(url);
 
@@ -136,7 +145,9 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
 
             // 3. Synthesize using LLM
             if (extractedData.length === 0) {
-                return res.status(400).json({ error: 'Did not find any pages on that domain to crawl.' });
+                clearInterval(keepAliveInterval);
+                res.write(`"error": "Did not find any pages on that domain to crawl."\n}`);
+                return res.end();
             }
             console.log(`Crawler finished. Submitting ${extractedData.length} pages to Gemini.`);
             const result = await generateLlmsTxt(extractedData, url);
@@ -148,15 +159,17 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
         const status = existingLlmsTxtDetected ? 'Improved Existing' : 'Newly Generated';
         appendRowToSheet(url, status, synthesizedDataString, content).catch(console.error);
 
-        res.json({
-            success: true,
-            filename,
-            content,
-            existingLlmsTxtDetected
-        });
+        clearInterval(keepAliveInterval);
+
+        // Complete the JSON object
+        res.write(`"success": true, "filename": ${JSON.stringify(filename)}, "content": ${JSON.stringify(content)}, "existingLlmsTxtDetected": ${existingLlmsTxtDetected}\n}`);
+        res.end();
     } catch (error: any) {
         console.error('Error during analysis API call:', error);
-        res.status(500).json({ error: error.message || 'An internal error occurred' });
+
+        // We already sent the opening `{`, so we append the error and close it
+        res.write(`"error": ${JSON.stringify(error.message || 'An internal error occurred')}\n}`);
+        res.end();
     }
 });
 
