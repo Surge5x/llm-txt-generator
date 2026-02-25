@@ -77,13 +77,23 @@ async function appendRowToSheet(targetUrl: string, status: string, synthesizedDa
 
         const dateStr = new Date().toISOString();
 
+        // Truncate strings to prevent hitting Google Sheets 50,000 character limit per cell
+        const MAX_CELL_LENGTH = 49000;
+        const truncatedSynthesizedData = synthesizedData.length > MAX_CELL_LENGTH
+            ? synthesizedData.substring(0, MAX_CELL_LENGTH) + '...\n\n[TRUNCATED DUE TO GOOGLE SHEETS SIZE LIMIT]'
+            : synthesizedData;
+
+        const truncatedLlmsText = llmsText.length > MAX_CELL_LENGTH
+            ? llmsText.substring(0, MAX_CELL_LENGTH) + '...\n\n[TRUNCATED DUE TO GOOGLE SHEETS SIZE LIMIT]'
+            : llmsText;
+
         await sheets.spreadsheets.values.append({
             spreadsheetId: SPREADSHEET_ID,
             range: 'Sheet1!A:E',
             valueInputOption: 'USER_ENTERED',
             requestBody: {
                 values: [
-                    [dateStr, targetUrl, status, synthesizedData, llmsText]
+                    [dateStr, targetUrl, status, truncatedSynthesizedData, truncatedLlmsText]
                 ]
             }
         });
