@@ -78,7 +78,7 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
 });
 
 // Catch-all route to serve the React frontend for non-API requests
-app.get('*', (req: Request, res: Response) => {
+app.use((req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 

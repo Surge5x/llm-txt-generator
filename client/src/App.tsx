@@ -50,7 +50,7 @@ function App() {
     setResult(null);
 
     try {
-      const response = await fetch('http://localhost:3001/api/analyze', {
+      const response = await fetch('/api/analyze', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -166,8 +166,8 @@ function App() {
         {result && !isLoading && (
           <div className="mt-16 max-w-5xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-500">
             <div className={`p-4 rounded-2xl mb-8 flex items-center gap-3 font-medium shadow-sm ${result.existingLlmsTxtDetected
-                ? 'bg-emerald-100/80 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/50'
-                : 'bg-amber-100/80 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300 border border-amber-200 dark:border-amber-800/50'
+              ? 'bg-emerald-100/80 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/50'
+              : 'bg-amber-100/80 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300 border border-amber-200 dark:border-amber-800/50'
               }`}>
               <AlertCircle size={20} className={result.existingLlmsTxtDetected ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'} />
               {result.existingLlmsTxtDetected
