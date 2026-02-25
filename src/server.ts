@@ -31,7 +31,43 @@ async function checkExistingLlmsTxt(startUrl: string): Promise<string | null> {
 
 const SPREADSHEET_ID = '1TTGtV81nwQ1L5sr6CoyaM2x-qSFf9WH5WnhdehgxAAs';
 
-async function appendRowToSheet(targetUrl: string, status: string) {
+async function initializeSheetHeaders() {
+    try {
+        const auth = new google.auth.GoogleAuth({
+            scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+        });
+        const client = await auth.getClient();
+        const sheets = google.sheets({ version: 'v4', auth: client as any });
+
+        const response = await sheets.spreadsheets.values.get({
+            spreadsheetId: SPREADSHEET_ID,
+            range: 'Sheet1!A1:E1',
+        });
+
+        const rows = response.data.values;
+        if (!rows || rows.length === 0) {
+            await sheets.spreadsheets.values.update({
+                spreadsheetId: SPREADSHEET_ID,
+                range: 'Sheet1!A1:E1',
+                valueInputOption: 'USER_ENTERED',
+                requestBody: {
+                    values: [
+                        ['Date', 'URL', 'Status', 'Synthesized Data', 'LLMs.txt Data']
+                    ]
+                }
+            });
+            console.log('Successfully initialized Google Sheets headers');
+        } else {
+            console.log('Google Sheets headers already exist');
+        }
+    } catch (error) {
+        console.error('Failed to initialize Google Sheets headers:', error);
+    }
+}
+
+// duplicate removed
+
+async function appendRowToSheet(targetUrl: string, status: string, synthesizedData: string, llmsText: string) {
     try {
         const auth = new google.auth.GoogleAuth({
             scopes: ['https://www.googleapis.com/auth/spreadsheets'],
@@ -43,11 +79,11 @@ async function appendRowToSheet(targetUrl: string, status: string) {
 
         await sheets.spreadsheets.values.append({
             spreadsheetId: SPREADSHEET_ID,
-            range: 'Sheet1!A:C',
+            range: 'Sheet1!A:E',
             valueInputOption: 'USER_ENTERED',
             requestBody: {
                 values: [
-                    [dateStr, targetUrl, status]
+                    [dateStr, targetUrl, status, synthesizedData, llmsText]
                 ]
             }
         });
@@ -70,8 +106,10 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
         // 1. Check for existing llms.txt
         const existingContent = await checkExistingLlmsTxt(url);
 
-        let content, filename;
+        let content = '';
+        let filename = 'llms.txt';
         let existingLlmsTxtDetected = false;
+        let synthesizedDataString = 'N/A - Improved Existing File';
 
         if (existingContent) {
             console.log('Existing llms.txt found. Improving it...');
@@ -83,6 +121,7 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
             // 2. Crawl Domain
             console.log('Starting crawler...');
             const extractedData = await crawlDomain(url, 100);
+            synthesizedDataString = JSON.stringify(extractedData);
 
             // 3. Synthesize using LLM
             if (extractedData.length === 0) {
@@ -96,7 +135,7 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
 
         // Fire-and-forget logging to Google Sheets
         const status = existingLlmsTxtDetected ? 'Improved Existing' : 'Newly Generated';
-        appendRowToSheet(url, status).catch(console.error);
+        appendRowToSheet(url, status, synthesizedDataString, content).catch(console.error);
 
         res.json({
             success: true,
@@ -116,6 +155,7 @@ app.use((req: Request, res: Response) => {
 });
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
     console.log(`Express server running on http://localhost:${PORT}`);
+    await initializeSheetHeaders();
 });
