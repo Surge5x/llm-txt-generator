@@ -3,7 +3,9 @@ import cors from 'cors';
 import path from 'path';
 import { google } from 'googleapis';
 import { crawlDomain } from './crawler';
-import { generateLlmsTxt, improveExistingLlmsTxt } from './llm';
+import { generateLlmsTxt, improveExistingLlmsTxt, generateLlmsFullTxt } from './llm';
+import { createMarkdownArchive } from './archive';
+import * as fs from 'fs';
 
 const app = express();
 app.use(cors());
@@ -11,6 +13,10 @@ app.use(express.json());
 
 // Serve static frontend files
 app.use(express.static(path.join(__dirname, '../client/dist')));
+
+// Serve the output directory for ZIP downloads
+app.use('/download', express.static(path.join(__dirname, '../output')));
+
 
 async function checkExistingLlmsTxt(startUrl: string): Promise<string | null> {
     try {
@@ -127,6 +133,9 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
 
         let content = '';
         let filename = 'llms.txt';
+        let llmsFullContent = '';
+        let llmsFullFilename = '';
+        let zipFilename = '';
         let existingLlmsTxtDetected = false;
         let synthesizedDataString = 'N/A - Improved Existing File';
 
@@ -136,6 +145,9 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
             const result = await improveExistingLlmsTxt(existingContent, url);
             content = result.content;
             filename = result.filename;
+
+            // We can't generate the full bundle easily without crawling, 
+            // but for UX consistency, we could fallback. For now, we skip full bundle if we just improved existing.
         } else {
             // 2. Crawl Domain
             console.log('Starting crawler...');
@@ -143,16 +155,34 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
             const extractedData = await crawlDomain(url, 45);
             synthesizedDataString = JSON.stringify(extractedData);
 
-            // 3. Synthesize using LLM
+            // 3. Synthesize using LLM and generate markdown files
             if (extractedData.length === 0) {
                 clearInterval(keepAliveInterval);
                 res.write(`"error": "Did not find any pages on that domain to crawl."\n}`);
                 return res.end();
             }
-            console.log(`Crawler finished. Submitting ${extractedData.length} pages to Gemini.`);
-            const result = await generateLlmsTxt(extractedData, url);
-            content = result.content;
-            filename = result.filename;
+            console.log(`Crawler finished. Submitting ${extractedData.length} pages to Gemini and formatting markdown.`);
+
+            const [llmsResult, fullResult] = await Promise.all([
+                generateLlmsTxt(extractedData, url),
+                generateLlmsFullTxt(extractedData, url)
+            ]);
+
+            content = llmsResult.content;
+            filename = llmsResult.filename;
+            llmsFullContent = fullResult.content;
+            llmsFullFilename = fullResult.filename;
+
+            // Extract company name for archive
+            let companyName = 'website';
+            try {
+                const parsedUrl = new URL(url);
+                companyName = parsedUrl.host.replace(/^www\./, '').split('.')[0];
+            } catch (e) { }
+
+            // Generate ZIP Archive
+            console.log('Generating ZIP archive...');
+            zipFilename = await createMarkdownArchive(fullResult.pages, content, llmsFullContent, companyName);
         }
 
         // Fire-and-forget logging to Google Sheets
@@ -162,7 +192,8 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
         clearInterval(keepAliveInterval);
 
         // Complete the JSON object
-        res.write(`"success": true, "filename": ${JSON.stringify(filename)}, "content": ${JSON.stringify(content)}, "existingLlmsTxtDetected": ${existingLlmsTxtDetected}\n}`);
+        const zipUrlString = zipFilename ? `/download/${zipFilename}` : null;
+        res.write(`"success": true, "filename": ${JSON.stringify(filename)}, "content": ${JSON.stringify(content)}, "existingLlmsTxtDetected": ${existingLlmsTxtDetected}, "llmsFullContent": ${JSON.stringify(llmsFullContent)}, "llmsFullFilename": ${JSON.stringify(llmsFullFilename)}, "zipDownloadUrl": ${JSON.stringify(zipUrlString)}\n}`);
         res.end();
     } catch (error: any) {
         console.error('Error during analysis API call:', error);

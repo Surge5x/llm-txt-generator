@@ -8,13 +8,24 @@ interface AnalyzeResponse {
   content?: string;
   error?: string;
   existingLlmsTxtDetected?: boolean;
+  llmsFullContent?: string;
+  llmsFullFilename?: string;
+  zipDownloadUrl?: string;
 }
 
 function App() {
   const [url, setUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<{ filename: string; content: string; existingLlmsTxtDetected?: boolean } | null>(null);
+  const [result, setResult] = useState<{
+    filename: string;
+    content: string;
+    existingLlmsTxtDetected?: boolean;
+    llmsFullContent?: string;
+    llmsFullFilename?: string;
+    zipDownloadUrl?: string;
+  } | null>(null);
+  const [activeTab, setActiveTab] = useState<'directory' | 'full'>('directory');
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
@@ -68,7 +79,11 @@ function App() {
         filename: data.filename || 'llms.txt',
         content: data.content || '',
         existingLlmsTxtDetected: data.existingLlmsTxtDetected,
+        llmsFullContent: data.llmsFullContent,
+        llmsFullFilename: data.llmsFullFilename,
+        zipDownloadUrl: data.zipDownloadUrl,
       });
+      setActiveTab('directory'); // reset tab on new search
     } catch (err: any) {
       setError(err.message || 'An unexpected error occurred.');
     } finally {
@@ -76,13 +91,33 @@ function App() {
     }
   };
 
+  const handleDownloadZip = () => {
+    if (!result || !result.zipDownloadUrl) return;
+    const link = document.createElement('a');
+    link.href = result.zipDownloadUrl;
+    link.download = result.zipDownloadUrl.split('/').pop() || 'bundle.zip';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const handleDownload = () => {
     if (!result) return;
-    const blob = new Blob([result.content], { type: 'text/markdown;charset=utf-8;' });
+
+    // If we have a ZIP, download that by default from the main button
+    if (result.zipDownloadUrl) {
+      handleDownloadZip();
+      return;
+    }
+
+    const contentToDownload = activeTab === 'full' && result.llmsFullContent ? result.llmsFullContent : result.content;
+    const filenameToUse = activeTab === 'full' && result.llmsFullFilename ? result.llmsFullFilename : result.filename;
+
+    const blob = new Blob([contentToDownload], { type: 'text/markdown;charset=utf-8;' });
     const link = document.createElement('a');
     const bUrl = URL.createObjectURL(blob);
     link.setAttribute('href', bUrl);
-    link.setAttribute('download', result.filename);
+    link.setAttribute('download', filenameToUse);
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
@@ -96,7 +131,7 @@ function App() {
           <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center text-white shadow-lg">
             <span className="material-symbols-outlined">auto_awesome</span>
           </div>
-          <span className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">LLM Text File Generator</span>
+          <span className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Agent-Ready Web Prep</span>
         </div>
         <div className="flex items-center gap-4">
           <button
@@ -119,11 +154,11 @@ function App() {
             New: Automatic LLM Discovery
           </div>
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1]">
-            Optimize Your Site <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">for AI Agents</span>
+            Agent-Ready <br />
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">Web Prep</span>
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            Crawl and automatically synthesize an optimized <code className="bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-primary font-mono text-sm">llms.txt</code> file to help AI models understand your content perfectly.
+            Get your entire website ready for the age of Agents. Crawl and automatically synthesize an optimized <code className="bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-primary font-mono text-sm">llms.txt</code> directory, full markdown documentation, and individual <code className="bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-primary font-mono text-sm">.md</code> files.
           </p>
 
           <div className="mt-12 max-w-3xl mx-auto">
@@ -142,10 +177,10 @@ function App() {
               <button
                 type="submit"
                 disabled={isLoading || !url}
-                className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white font-bold px-8 py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70 disabled:hover:translate-y-0"
+                className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white font-bold px-8 py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70 disabled:hover:translate-y-0 disabled:cursor-not-allowed whitespace-nowrap"
               >
                 {isLoading ? <Loader2 className="animate-spin" size={20} /> : <span className="material-symbols-outlined">search</span>}
-                {isLoading ? 'Analyzing...' : 'Generate llms.txt'}
+                {isLoading ? 'Analyzing...' : 'Generate Agent Docs'}
               </button>
             </form>
 
@@ -174,31 +209,52 @@ function App() {
             </div>
 
             <div className="glass-card rounded-3xl overflow-hidden shadow-2xl border-slate-200/50 dark:border-slate-700/50">
-              <div className="bg-slate-50/80 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-700/80 px-6 py-4 flex justify-between items-center backdrop-blur-sm">
-                <div className="flex items-center gap-2 text-slate-800 dark:text-slate-200 font-semibold tracking-tight">
-                  <span className="material-symbols-outlined text-primary">description</span>
-                  {result.filename}
+              <div className="bg-slate-50/80 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-700/80 px-6 py-4 flex flex-col md:flex-row justify-between items-center backdrop-blur-sm gap-4">
+                <div className="flex bg-slate-200/50 dark:bg-slate-900/50 p-1 rounded-xl">
+                  <button
+                    onClick={() => setActiveTab('directory')}
+                    className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${activeTab === 'directory'
+                      ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                      }`}
+                  >
+                    {result.filename}
+                  </button>
+                  {result.llmsFullContent && (
+                    <button
+                      onClick={() => setActiveTab('full')}
+                      className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${activeTab === 'full'
+                        ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                        }`}
+                    >
+                      {result.llmsFullFilename || 'llms-full.txt'}
+                    </button>
+                  )}
                 </div>
-                <button
-                  onClick={handleDownload}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-600 transition-all border border-slate-200 dark:border-slate-600 shadow-sm hover:shadow-md active:scale-95"
-                >
-                  <Download size={16} />
-                  Download
-                </button>
+
+                <div className="flex gap-3 w-full md:w-auto">
+                  <button
+                    onClick={handleDownload}
+                    className="flex-1 md:flex-none flex justify-center items-center gap-2 px-5 py-2.5 bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-600 transition-all border border-slate-200 dark:border-slate-600 shadow-sm hover:shadow-md active:scale-95 whitespace-nowrap"
+                  >
+                    <Download size={16} />
+                    {result.zipDownloadUrl ? 'Download Full Bundle (.zip)' : 'Download File'}
+                  </button>
+                </div>
               </div>
 
               <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200/80 dark:divide-slate-700/80">
                 <div className="p-6">
                   <h3 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">Preview</h3>
                   <div className="prose prose-slate dark:prose-invert prose-sm max-w-none max-h-[500px] overflow-y-auto pr-4 custom-scrollbar">
-                    <ReactMarkdown>{result.content}</ReactMarkdown>
+                    <ReactMarkdown>{activeTab === 'full' && result.llmsFullContent ? result.llmsFullContent : result.content}</ReactMarkdown>
                   </div>
                 </div>
                 <div className="p-6 bg-slate-50/30 dark:bg-slate-900/30">
-                  <h3 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">Raw Text</h3>
+                  <h3 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">Raw Markdown</h3>
                   <pre className="text-sm font-mono text-slate-600 dark:text-slate-400 whitespace-pre-wrap break-words max-h-[500px] overflow-y-auto pr-4 custom-scrollbar leading-relaxed">
-                    {result.content}
+                    {activeTab === 'full' && result.llmsFullContent ? result.llmsFullContent : result.content}
                   </pre>
                 </div>
               </div>
@@ -299,10 +355,10 @@ function App() {
             <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center text-white">
               <span className="material-symbols-outlined text-lg">auto_awesome</span>
             </div>
-            <span className="font-bold text-slate-900 dark:text-white">LLM Text File Generator</span>
+            <span className="font-bold text-slate-900 dark:text-white">Agent-Ready Web Prep</span>
           </div>
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            © 2024 LLM Text File Generator. Helping websites speak AI.
+            © 2024 Agent-Ready Web Prep. Helping websites speak AI.
           </p>
           <div className="flex gap-6">
             <a className="text-slate-400 hover:text-primary transition-colors" href="#"><span className="material-symbols-outlined">public</span></a>
